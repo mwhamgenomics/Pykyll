@@ -9,9 +9,11 @@ from shutil import copyfile
 from datetime import datetime, date
 from pykyll import preprocessors, dev_server
 
+with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'version.txt')) as f:
+    __version__ = f.read().strip()
+
 formatter = logging.Formatter('[%(asctime)s][%(name)s][%(levelname)s] %(message)s')
 logger = logging.getLogger('pykyll')
-__version__ = '0.1'
 
 
 class Pykyller:
@@ -296,6 +298,7 @@ def main():
     a.add_argument('-f', '--force', nargs='*', help='Force rebuild specified pages, or all')
     a.add_argument('-s', '--server', action='store_true', help='Set up a dev server for testing')
     a.add_argument('-l', '--log_level', default='info', help='Set log level. Can be given in lower case.')
+    a.add_argument('-v', '--version', action='store_true', help='Show version')
     args = a.parse_args()
 
     log_level = logging.getLevelName(args.log_level.upper())
@@ -306,7 +309,10 @@ def main():
     logger.setLevel(log_level)
     logger.addHandler(handler)
 
-    if args.server:
+    if args.version:
+        print(__version__)
+        sys.exit(0)
+    elif args.server:
         os.chdir(args.build_dir)
         dev_server.DevServer.run()
     else:

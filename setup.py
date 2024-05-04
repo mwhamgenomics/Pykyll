@@ -1,9 +1,11 @@
 import os
 from setuptools import setup, find_packages
-from pykyll import __version__
 
 requirements_txt = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'requirements.txt')
 requirements = [l.strip() for l in open(requirements_txt) if l and not l.startswith('#')]
+
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'version.txt')) as f:
+    __version__ = f.read().strip()
 
 def translate_req(req):
     # this>=0.3.2 -> this(>=0.3.2)
