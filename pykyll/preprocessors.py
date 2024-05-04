@@ -111,4 +111,4 @@ class CodeBlockPreprocessor(Preprocessor):
 
 class CodeBlockExtension(Extension):
     def extendMarkdown(self, md):
-        md.preprocessors.register('CodeBlockPreprocessor', CodeBlockPreprocessor(), '_begin')
+        md.preprocessors.register(CodeBlockPreprocessor(), 'codeblock', 26)
