@@ -5,12 +5,15 @@ import jinja2
 import logging
 import argparse
 import markdown
+import pkg_resources
 from shutil import copyfile
 from datetime import datetime, date
 from pykyll import preprocessors, dev_server
 
-with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'version.txt')) as f:
-    __version__ = f.read().strip()
+try:
+    __version__ = pkg_resources.get_distribution('pykyll').version
+except pkg_resources.DistributionNotFound:  # running from source
+    __version__ = None
 
 formatter = logging.Formatter('[%(asctime)s][%(name)s][%(levelname)s] %(message)s')
 logger = logging.getLogger('pykyll')
@@ -310,7 +313,7 @@ def main():
     logger.addHandler(handler)
 
     if args.version:
-        print(__version__)
+        print('Version:', __version__)
         sys.exit(0)
     elif args.server:
         os.chdir(args.build_dir)
@@ -324,6 +327,3 @@ def main():
         builder.process()
         builder.build()
 
-
-if __name__ == '__main__':
-    main()
