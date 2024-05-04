@@ -11,6 +11,7 @@ from pykyll import preprocessors, dev_server
 
 formatter = logging.Formatter('[%(asctime)s][%(name)s][%(levelname)s] %(message)s')
 logger = logging.getLogger('pykyll')
+__version__ = '0.1'
 
 
 class Pykyller:
