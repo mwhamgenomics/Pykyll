@@ -98,10 +98,8 @@ class CodeBlockPreprocessor(Preprocessor):
 
             lexer = get_lexer_by_name(lang)
             code = highlight(code, lexer, self.formatter)
-            code = code.replace('\n\n', '\n&nbsp;\n').replace('\n', '<br />')
-            if lang in ('jinja', 'jinja2'):
-                code = '{% raw %}' + code + '{% endraw %}'  # special case - if it's Jinja2 code, don't interpret it
-
+            code = code.rstrip('\n').replace('\n\n', '\n&nbsp;\n').replace('\n', '<br />')
+            code = '{% raw %}' + code + '{% endraw %}'  # special case - if it's Jinja2 code, don't interpret it
             return '\n\n<div class="code">%s</div>' % code
 
         joined_lines = '\n'.join(lines)
